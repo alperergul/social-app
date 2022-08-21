@@ -1,0 +1,16 @@
+.form-control.ng-touched.ng-invalid {
+  border-left: 5px solid #a94442;
+}
+
+.form-control.ng-dirty.ng-valid {
+  border-left: 5px solid #42a948;
+}
+
+.form-group .alert.alert-danger {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.form-group .alert.alert-danger p {
+  margin: 0;
+}
