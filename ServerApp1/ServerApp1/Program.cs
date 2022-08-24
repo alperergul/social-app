@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ServerApp1.Data;
 using ServerApp1.Models;
+using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +70,27 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+}else
+{
+    app.UseExceptionHandler(appError => {
+        appError.Run(async context =>
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.ContentType = "application/json";
+            var exception = context.Features.Get<IExceptionHandlerFeature>();
+            if(exception != null)
+            {
+                await context.Response.WriteAsync(new ErrorDetails()
+                {
+                    StatusCode = context.Response.StatusCode,
+                    Message = exception.Error.Message
+                }.ToString());
+            }
+        });
+        
+    });
+    
 }
 
 app.UseHttpsRedirection();

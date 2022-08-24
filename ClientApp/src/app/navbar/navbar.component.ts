@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['/members']);
       },
       (error) => {
-        console.log('login başarısız! ' + error);
+        console.log(error);
       }
     );
   }

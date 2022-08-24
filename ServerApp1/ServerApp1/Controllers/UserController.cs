@@ -28,6 +28,12 @@ namespace ServerApp1.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = new User
             {
                 Name = model.Name,
@@ -49,6 +55,9 @@ namespace ServerApp1.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO model)
         {
+           
+            //throw new Exception("interval exception");
+
             var user = await _userManager.FindByNameAsync(model.UserName);
 
             if(user == null)
